@@ -21,7 +21,7 @@ To start zookeeper type;
 ```
 sudo bin/zkServer.sh start
 ```
-![image](https://user-images.githubusercontent.com/42948627/148829764-9a2aa3d8-ed02-4f4c-9357-078886562f2a.png)
+![image](https://user-images.githubusercontent.com/42948627/148829947-8e011c8c-a09f-4db6-b24a-94a79fdbd647.png)
 
 To stop type;
 
@@ -29,8 +29,16 @@ To stop type;
 sudo bin/zkServer.sh stop
 ```
 
-![image](https://user-images.githubusercontent.com/42948627/148829870-dad506c4-c02f-4742-aea3-d4ca9334e54d.png)
-
+![image](https://user-images.githubusercontent.com/42948627/148830322-eb968c09-5739-4442-a29f-7fbcbed246d9.png)
 
 ## Install and run local Kafka
 Access https://kafka.apache.org/downloads to download the last binary kafka version
+
+With zookeeper started, in kafka directory type;
+
+```
+sudo bin/kafka-server-start.sh config/server.properties
+```
+
+![image](https://user-images.githubusercontent.com/42948627/148831406-99b0b115-87f2-4981-b00b-d6f5e2b042dc.png)
+
