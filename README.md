@@ -40,5 +40,5 @@ With zookeeper started, in kafka directory type;
 sudo bin/kafka-server-start.sh config/server.properties
 ```
 
-![image](https://user-images.githubusercontent.com/42948627/148831406-99b0b115-87f2-4981-b00b-d6f5e2b042dc.png)
+![image](https://user-images.githubusercontent.com/42948627/148831484-23ff22eb-820e-484f-a83a-d0640de58b3f.png)
 
