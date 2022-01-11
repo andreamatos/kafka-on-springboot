@@ -45,4 +45,18 @@ public class BebidasController {
 					.name(name)
 				.build());
 	}
+
+	@ApiOperation("Retorna bebidas cadastradas.")
+	@ApiParam(name = "Authorization", type = "header")
+	@PostMapping(value = "/produce")
+	public void enviarBebidasAoTopico(
+			@RequestParam(value = "Identificacão", required = true) Long id,
+			@RequestParam(value = "Nome", required = false) String name) {
+
+		bebidasService.produce(Bebidas
+				.builder()
+					.id(id)
+					.name(name)
+				.build());
+	}
 }

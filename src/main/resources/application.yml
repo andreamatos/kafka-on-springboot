@@ -1,0 +1,35 @@
+server:
+  port: 8089
+spring:
+  application:
+    name: starbucks-api
+  datasource:
+    url: jdbc:mysql://localhost:6603/starbucks
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: adm
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  main:
+    allow-bean-definition-overriding: true
+  kafka:
+    bootstrap-servers: kubernetes-worker.domain.name:9092
+    numero-threads: 1
+    pagamento:
+        topico-processo-noturno: envio.pagamento.noturo-local
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      group-id: strabucks-api
+      auto-commit: true
+      auto-commit-interval: 100
+      session-timeout: 30000
+      max-pool-interval: 50000
+      max-pool-records: 5
