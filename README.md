@@ -42,3 +42,17 @@ sudo bin/kafka-server-start.sh config/server.properties
 
 ![image](https://user-images.githubusercontent.com/42948627/148831484-23ff22eb-820e-484f-a83a-d0640de58b3f.png)
 
+
+Create a mysql container to use with springboot;
+
+```
+sudo docker pull mysql/mysql-server:latest
+docker  network create --driver bridge mysql-network
+
+docker run -p 6603:3306 --network mysql-network --detach --name=mysql-docker -e MYSQL_ROOT_PASSWORD=adm -e MY_DATABASE=starbucks -e MY_USER=root mysql
+   
+sudo docker exec -it mysql-docker bash
+mysql -uroot -p
+password: adm
+create database starbucks;
+show databases;
