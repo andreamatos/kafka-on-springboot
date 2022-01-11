@@ -56,10 +56,104 @@ create database starbucks;
 show databases;
 ```
 
-Lets verificate the status of brocker connection;
+To verificate brocker connection run Kowl;
 
 docker container run -d -p 8080:8181 -e KAFKA_BROKERS=kubernetes-worker.domain.name:9092 --add-host kafka-server:127.0.0.1 quay.io/cloudhut/kowl:master
 
 ![image](https://user-images.githubusercontent.com/42948627/148997673-acfebe7d-479a-47a6-b8c6-c3c4c3c94aa8.png)
 
 ![image](https://user-images.githubusercontent.com/42948627/148997703-2b5ff47e-4041-4586-bb38-7a404ffc94a3.png)
+
+## API configuration
+
+Create kafka configuration in application.yml;
+
+```
+  kafka:
+    bootstrap-servers: kubernetes-worker.domain.name:9092
+    numero-threads: 1
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      group-id: strabucks-api
+      auto-commit: true
+      auto-commit-interval: 100
+      session-timeout: 30000
+      max-pool-interval: 50000
+      max-pool-records: 5
+```
+
+Enable kafka;
+
+```
+@EnableKafka
+@EnableRetry
+@Configuration
+public class KafkaConfiguration {
+    @Value("${spring.kafka.bootstrap-servers}")
+    private List<String> bootstrapServers;
+
+    @Value("${spring.kafka.consumer.group-id}")
+    private String groupId;
+
+    @Value("${spring.kafka.numero-threads}")
+    private Integer numeroThreads;
+
+    @Value("${spring.kafka.consumer.auto-commit}")
+    private Boolean autoCommit;
+
+    @Value("${spring.kafka.consumer.auto-commit-interval}")
+    private Integer autoCommitInterval;
+
+    @Value("${spring.kafka.consumer.session-timeout}")
+    private Integer sessionTimeout;
+
+    @Value("${spring.kafka.consumer.max-pool-interval}")
+    private Integer maxPoolInterval;
+
+    @Value("${spring.kafka.consumer.max-pool-records}")
+    private Integer maxPoolRecords;
+
+    @Bean
+    public DefaultKafkaConsumerFactory<Object, Object> consumerFactory() {
+        Map<String, Object> props = Stream
+                .of(new Object[][] {
+                        {ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, String.join(",", bootstrapServers)},
+                        {ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class},
+                        {ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class},
+                        {ConsumerConfig.GROUP_ID_CONFIG, groupId},
+                        {ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout},
+                        {ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, maxPoolInterval},
+                        {ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, autoCommit},
+                        {ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, autoCommitInterval},
+                        {ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPoolRecords},
+
+                }).collect(Collectors.toMap(data -> (String) data[0], data -> data[1]));
+
+        return new DefaultKafkaConsumerFactory<>(props);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, Object> kafkaDefaultFactory() {
+        final var factory = new ConcurrentKafkaListenerContainerFactory<String, Object>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setConcurrency(this.numeroThreads);
+        return factory;
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, Object> kafkaReportEmailRetryFactory() {
+        final var factory = new ConcurrentKafkaListenerContainerFactory<String, Object>();
+        factory.setConsumerFactory(consumerFactory());
+        factory.setConcurrency(this.numeroThreads);
+        return factory;
+    }
+
+```
+
+Run application;
+
+![image](https://user-images.githubusercontent.com/42948627/149007126-60186c01-9277-48af-90e1-48ab815c0b44.png)
