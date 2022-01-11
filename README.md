@@ -164,7 +164,7 @@ Console;
 
 ## Send message
 
-create a "producer" endpoint;
+create a endpoint "producer";
 
 ![image](https://user-images.githubusercontent.com/42948627/149022438-58d88dce-aaba-4855-b58e-0f8b4c4d7507.png)
 
