@@ -157,3 +157,8 @@ public class KafkaConfiguration {
 Run application;
 
 ![image](https://user-images.githubusercontent.com/42948627/149007126-60186c01-9277-48af-90e1-48ab815c0b44.png)
+
+Console;
+
+![image](https://user-images.githubusercontent.com/42948627/149007336-45667571-0563-4d55-80c4-c3d3ab62fd5d.png)
+
