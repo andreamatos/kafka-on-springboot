@@ -48,11 +48,18 @@ Create a mysql container to use with springboot;
 ```
 sudo docker pull mysql/mysql-server:latest
 docker  network create --driver bridge mysql-network
-
 docker run -p 6603:3306 --network mysql-network --detach --name=mysql-docker -e MYSQL_ROOT_PASSWORD=adm -e MY_DATABASE=starbucks -e MY_USER=root mysql
-   
 sudo docker exec -it mysql-docker bash
 mysql -uroot -p
 password: adm
 create database starbucks;
 show databases;
+```
+
+Lets verificate the status of brocker connection;
+
+docker container run -d -p 8080:8181 -e KAFKA_BROKERS=kubernetes-worker.domain.name:9092 --add-host kafka-server:127.0.0.1 quay.io/cloudhut/kowl:master
+
+![image](https://user-images.githubusercontent.com/42948627/148997673-acfebe7d-479a-47a6-b8c6-c3c4c3c94aa8.png)
+
+![image](https://user-images.githubusercontent.com/42948627/148997703-2b5ff47e-4041-4586-bb38-7a404ffc94a3.png)
