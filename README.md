@@ -162,3 +162,27 @@ Console;
 
 ![image](https://user-images.githubusercontent.com/42948627/149007336-45667571-0563-4d55-80c4-c3d3ab62fd5d.png)
 
+## Send message
+
+create a "producer" endpoint;
+
+![image](https://user-images.githubusercontent.com/42948627/149022438-58d88dce-aaba-4855-b58e-0f8b4c4d7507.png)
+
+class to produce a message;
+
+![image](https://user-images.githubusercontent.com/42948627/149022520-4eef9a76-4c5c-4b3c-a000-fca38abf2b99.png)
+
+
+Access swagger;
+
+http://localhost:8089/swagger-ui.html#/Bebidas
+
+![image](https://user-images.githubusercontent.com/42948627/149022615-a85048f2-a393-4d19-9a6b-b24aad3a1c84.png)
+
+![image](https://user-images.githubusercontent.com/42948627/149022981-0b5f58eb-1c9a-448a-9189-a50b1d5be684.png)
+
+And the producer topic will be created
+
+![image](https://user-images.githubusercontent.com/42948627/149023047-15961829-38e9-4f4c-b56f-fa9d731b6761.png)
+
+
