@@ -7,7 +7,7 @@ Run a local springboot api to communicate with kafka using producers and consume
 ## Install and run local zookeeper
 Kafka needs to keep some basic information and use zookeeper for it, whoever create /data/zookeeper.
 
-To run zookeeper is nescessary to create a configureation on /kafka_local/apache-zookeeper-3.7.0-bin/conf/zoo.cfg
+To run zookeeper is nescessary to create a configuration on /kafka_local/apache-zookeeper-3.7.0-bin/conf/zoo.cfg
 
 ```
 tickTime=2000
@@ -252,3 +252,8 @@ Run api producer to consume the message;
 
 ![image](https://user-images.githubusercontent.com/42948627/149155342-0a5e5ec7-8d47-4bb8-bcdc-00010087fabf.png)
 
+## References
+
+https://zookeeper.apache.org/releases.html#download
+
+https://kafka.apache.org/downloads
