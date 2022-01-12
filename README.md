@@ -162,7 +162,7 @@ Console;
 
 ![image](https://user-images.githubusercontent.com/42948627/149007336-45667571-0563-4d55-80c4-c3d3ab62fd5d.png)
 
-## Send message
+## Message Producer 
 
 create a endpoint "producer";
 
@@ -184,5 +184,74 @@ http://localhost:8089/swagger-ui.html#/Bebidas
 And the producer topic will be created
 
 ![image](https://user-images.githubusercontent.com/42948627/149023047-15961829-38e9-4f4c-b56f-fa9d731b6761.png)
+
+
+## Message Consumer
+
+Configure consumer classes;
+
+```
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class KafkaConsumer {
+    private final ObjectMapper objectMapper;
+
+    public <T> void consume(ConsumerRecord<String, String> message, Class<T> classe,
+                            Consumer<T> consumer) {
+        log.debug("Iniciando ação para o topico: {}", message.topic());
+
+        try {
+            final var obj = objectMapper.readValue(message.value(), classe);
+            consumer.accept(obj);
+        } catch (Exception e) {
+            log.error(format("Erro ao executar ação para o tópico: %s", message.topic()), e);
+            e.printStackTrace();
+        }
+    }
+
+    public <T> void consume(ConsumerRecord<String, String> message, Class<T> classe,
+                            BiConsumer<T, Headers> consumer) {
+        log.debug("Iniciando ação para o topico: {}", message.topic());
+        try {
+            final var obj = objectMapper.readValue(message.value(), classe);
+            consumer.accept(obj, message.headers());
+        } catch (Exception e) {
+            log.error(format("Erro ao executar ação para o tópico : %s", message.topic()), e);
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+```
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class PagamentoNoturnoConsumer {
+    private final KafkaConsumer kafkaConsumer;
+
+    @KafkaListener(topics = "${spring.kafka.pagamento.topico-processo-noturno}",
+                    containerFactory = "kafkaDefaultFactory",
+                    autoStartup = "${spring.kafka.pagamento.enabled}")
+
+    public void consume(ConsumerRecord<String, String> message) {
+        kafkaConsumer.consume(message, Bebidas.class, (bebidas) -> {
+            log.info(
+                    "[bebidasId = {}, bebidasNome = {}] Mensagem Consumida com sucesso" ,
+                    bebidas.getId(),
+                    bebidas.getName());
+        });
+    }
+}
+```
+
+Run api producer to consume the message;
+
+**![image](https://user-images.githubusercontent.com/42948627/149155265-c258b065-ea61-4b81-b3ec-150519652641.png)
+
+![image](https://user-images.githubusercontent.com/42948627/149155342-0a5e5ec7-8d47-4bb8-bcdc-00010087fabf.png)
+
+
 
 
