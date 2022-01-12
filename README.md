@@ -252,6 +252,3 @@ Run api producer to consume the message;
 
 ![image](https://user-images.githubusercontent.com/42948627/149155342-0a5e5ec7-8d47-4bb8-bcdc-00010087fabf.png)
 
-
-
-
