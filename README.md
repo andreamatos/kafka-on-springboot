@@ -248,7 +248,7 @@ public class PagamentoNoturnoConsumer {
 
 Run api producer to consume the message;
 
-**![image](https://user-images.githubusercontent.com/42948627/149155265-c258b065-ea61-4b81-b3ec-150519652641.png)
+![image](https://user-images.githubusercontent.com/42948627/149155265-c258b065-ea61-4b81-b3ec-150519652641.png)
 
 ![image](https://user-images.githubusercontent.com/42948627/149155342-0a5e5ec7-8d47-4bb8-bcdc-00010087fabf.png)
 
